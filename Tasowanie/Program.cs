@@ -15,19 +15,15 @@ namespace Tasowanie
             List<int> numbers = new List<int>();
             List<string> letters = new List<string>();
 
-            using (var reader = new StreamReader(@"C:\Projekty\Tasowanie\dane.csv"))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                IList<NumberAndLetter> records = csv.GetRecords<NumberAndLetter>().ToList();
+            NumbersAndLettersReader reader = new NumbersAndLettersReader();
 
-                foreach (var r in records)
-                {
-                    numbers.Add(r.Number);
-                    letters.Add(r.Letter);
-                }
-            }   
+            foreach (var r in reader.GetNumberAndLetter())
+            {
+                numbers.Add(r.Number);
+                letters.Add(r.Letter);
+            }
             
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < letters.Count; i++)
             {
                 Console.Write(numbers[i] + letters[i]);
             }
