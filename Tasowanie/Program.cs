@@ -1,6 +1,10 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Text;
+using System.Linq;
 
 namespace Tasowanie
 {
@@ -8,23 +12,25 @@ namespace Tasowanie
     {
         static void Main(string[] args)
         {
-            List<string> values = new List<string>();
+            List<int> numbers = new List<int>();
+            List<string> letters = new List<string>();
 
             using (var reader = new StreamReader(@"C:\Projekty\Tasowanie\dane.csv"))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                while (!reader.EndOfStream)
+                IList<NumberAndLetter> records = csv.GetRecords<NumberAndLetter>().ToList();
+
+                foreach (var r in records)
                 {
-                    var line = reader.ReadLine();
-                    values.Add(line);
+                    numbers.Add(r.Number);
+                    letters.Add(r.Letter);
                 }
+            }   
+            
+            for (int i = 0; i < 5; i++)
+            {
+                Console.Write(numbers[i] + letters[i]);
             }
-
-            List<string> listA = new List<string>();
-            List<string> listB = new List<string>();
-
-            listA.Add(values[0]);
-            listB.Add(values[1]);
-
         }
     }
 }
